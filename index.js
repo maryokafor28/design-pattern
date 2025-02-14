@@ -49,7 +49,7 @@ class Telephone {
 
   dial(phoneNumber) {
     if (this.phoneNumbers.has(phoneNumber)) {
-      console.log(`Dialing:${phoneNumber}...`);
+      console.log(`Dialing ${phoneNumber}...`);
     } else {
       console.log(`phone number ${phoneNumber} not found`);
     }
@@ -72,14 +72,17 @@ class phoneNumber {
   }
 }
 
+class printnumber {}
+
 const telephone = new Telephone();
 const number1 = new phoneNumber("123455");
 const number2 = new phoneNumber("5958488");
 const number3 = new phoneNumber("6544666");
 telephone.add(number1);
 telephone.add(number2);
+telephone.add(number3);
 // telephone.notify({ phoneNumber: true });
 telephone.remove(number2);
 telephone.notify({ phoneNumber: true });
-telephone.dial(number1);
+telephone.dial(number3);
 telephone.notify({ phoneNumber: true });
