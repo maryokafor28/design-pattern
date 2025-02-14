@@ -48,11 +48,15 @@ class Telephone {
   }
 
   dial(phoneNumber) {
-    this.phoneNumbers.dial(phoneNumber);
+    if (this.phoneNumbers.has(phoneNumber)) {
+      console.log(`Dialing:${phoneNumber}...`);
+    } else {
+      console.log(`phone number ${phoneNumber} not found`);
+    }
   }
 
   notify(context) {
-    if (context.update) {
+    if (context.phoneNumber) {
       for (let phoneNumber of this.phoneNumbers) {
         phoneNumber.contact(context);
       }
@@ -60,21 +64,22 @@ class Telephone {
   }
 }
 class phoneNumber {
-  constructor(name) {
-    this.name = name;
+  constructor(number) {
+    this.number = number;
   }
   contact(data) {
-    console.log(`phone number ${this.phoneNumbers} has been added`);
+    console.log(`phone number ${this.number} has been added`);
   }
 }
 
 const telephone = new Telephone();
-telephone.add("123-7654-97766");
-telephone.add("123-7654-97766");
-
-// const number1 = new phoneNumber("123455");
-// const number2 = new phoneNumber("5958488");
-
-// telephone.add(number1);
-// telephone.add(number2);
-// telephone.notify({ dialedNumber: true });
+const number1 = new phoneNumber("123455");
+const number2 = new phoneNumber("5958488");
+const number3 = new phoneNumber("6544666");
+telephone.add(number1);
+telephone.add(number2);
+// telephone.notify({ phoneNumber: true });
+telephone.remove(number2);
+telephone.notify({ phoneNumber: true });
+telephone.dial(number1);
+telephone.notify({ phoneNumber: true });
