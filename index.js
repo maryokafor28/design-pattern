@@ -37,6 +37,7 @@
 class Telephone {
   constructor() {
     this.phoneNumbers = new Set();
+    this.observers = [];
   }
 
   add(phoneNumber) {
@@ -55,10 +56,23 @@ class Telephone {
     }
   }
 
+  addObservers(observer) {
+    this.observers.push(observer);
+  }
+  removeObservers(observer) {
+    this.observers.delete(observer);
+  }
   notify(context) {
     if (context.phoneNumber) {
       for (let phoneNumber of this.phoneNumbers) {
         phoneNumber.contact(context);
+      }
+    }
+  }
+  notify(context) {
+    if (context.observer) {
+      for (let observer of this.observers) {
+        observer.contact(context);
       }
     }
   }
@@ -72,8 +86,16 @@ class phoneNumber {
   }
 }
 
-class printnumber {}
-
+const printing = {
+  contact(phoneNumber) {
+    console.log(`observer 1 phone number ${phoneNumber}`);
+  },
+};
+const dialling = {
+  contact(phoneNumber) {
+    console.log(`observer2 dialling ${phoneNumber}`);
+  },
+};
 const telephone = new Telephone();
 const number1 = new phoneNumber("123455");
 const number2 = new phoneNumber("5958488");
@@ -86,3 +108,5 @@ telephone.remove(number2);
 telephone.notify({ phoneNumber: true });
 telephone.dial(number3);
 telephone.notify({ phoneNumber: true });
+telephone.addObservers(dialling);
+telephone.notify({ observer: true });
