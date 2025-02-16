@@ -62,17 +62,13 @@ class Telephone {
   removeObservers(observer) {
     this.observers.delete(observer);
   }
+  notifyObserver(phoneNumber) {
+    this.observers.forEach((observer) => observer.update(phoneNumber));
+  }
   notify(context) {
     if (context.phoneNumber) {
       for (let phoneNumber of this.phoneNumbers) {
         phoneNumber.contact(context);
-      }
-    }
-  }
-  notify(context) {
-    if (context.observer) {
-      for (let observer of this.observers) {
-        observer.contact(context);
       }
     }
   }
@@ -86,27 +82,27 @@ class phoneNumber {
   }
 }
 
-const printing = {
-  contact(phoneNumber) {
-    console.log(`observer 1 phone number ${phoneNumber}`);
-  },
-};
-const dialling = {
-  contact(phoneNumber) {
-    console.log(`observer2 dialling ${phoneNumber}`);
-  },
-};
+class observer {
+  update(phoneNumber) {}
+}
+class phoneNumberprint extends observer {
+  update(phoneNumber) {
+    console.log(`observer1 phone number ${phoneNumber}`);
+  }
+}
+class dialling extends observer {
+  update(phoneNumber) {
+    console.log(`observer2 dialing ${phoneNumber}`);
+  }
+}
 const telephone = new Telephone();
-const number1 = new phoneNumber("123455");
-const number2 = new phoneNumber("5958488");
-const number3 = new phoneNumber("6544666");
+const number1 = new phoneNumber("1234567");
+const observer1 = new phoneNumberprint();
+const observer2 = new dialling();
+telephone.addObservers(observer1);
 telephone.add(number1);
-telephone.add(number2);
-telephone.add(number3);
+telephone.notify({ phoneNumber: true });
+telephone.dial(number1);
 // telephone.notify({ phoneNumber: true });
-telephone.remove(number2);
-telephone.notify({ phoneNumber: true });
-telephone.dial(number3);
-telephone.notify({ phoneNumber: true });
-telephone.addObservers(dialling);
-telephone.notify({ observer: true });
+telephone.add(observer1);
+telephone.notify({ : true });
